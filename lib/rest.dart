@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:food/orders.dart';
-import 'package:food/payment.dart';
+// import 'package:food/payment.dart';
 import 'package:food/rest1.dart';
 import 'package:food/reviews.dart';
 

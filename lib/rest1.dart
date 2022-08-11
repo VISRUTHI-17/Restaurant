@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:counter_button/counter_button.dart';
 import 'package:food/payment.dart';
+import 'package:food/rest.dart';
 import 'package:food/reviews.dart';
 
 import 'orders.dart';
@@ -73,21 +74,21 @@ class _MenuState extends State<Menu> {
     return "₹${total.toString()} plus taxes";
   }
 
-  int _selectedIndex = 0;
-  static const List _widgetOptions = [
-    // Menu(),
-    Orders(),
-    Reviews(),
-  ];
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => (_widgetOptions.elementAt(_selectedIndex))),
-      );
-    });
-  }
+  // int _selectedIndex = 0;
+  // static const List _widgetOptions = [
+  //   Restaurant(),
+  //   Orders(),
+  //   Reviews(),
+  // ];
+  // void _onItemTapped(int index) {
+  //   setState(() {
+  //     _selectedIndex = index;
+  //     Navigator.push(
+  //       context,
+  //       MaterialPageRoute(builder: (context) => (_widgetOptions.elementAt(_selectedIndex))),
+  //     );
+  //   });
+  // }
   @override
   Widget build(BuildContext context) {
     setState(() {
@@ -106,26 +107,26 @@ class _MenuState extends State<Menu> {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        bottomNavigationBar: BottomNavigationBar(
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.food_bank_outlined),
-                  label: "Orders",
-                  backgroundColor: Color(0xff04ECF0)
-              ),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.reviews),
-                  label: "Reviews",
-                  backgroundColor: Color(0xff04ECF0)
-              ),
-            ],
-            type: BottomNavigationBarType.shifting,
-            currentIndex: _selectedIndex,
-            selectedItemColor: Colors.black,
-            iconSize: 40,
-            onTap: _onItemTapped,
-            elevation: 5
-        ),
+        // bottomNavigationBar: BottomNavigationBar(
+        //     items: const <BottomNavigationBarItem>[
+        //       BottomNavigationBarItem(
+        //           icon: Icon(Icons.food_bank_outlined),
+        //           label: "Orders",
+        //           backgroundColor: Color(0xff04ECF0)
+        //       ),
+        //       BottomNavigationBarItem(
+        //           icon: Icon(Icons.reviews),
+        //           label: "Reviews",
+        //           backgroundColor: Color(0xff04ECF0)
+        //       ),
+        //     ],
+        //     type: BottomNavigationBarType.shifting,
+        //     currentIndex: _selectedIndex,
+        //     selectedItemColor: Colors.black,
+        //     iconSize: 40,
+        //     onTap: _onItemTapped,
+        //     elevation: 5
+        // ),
         body: Column(
           children: [
             Container(
@@ -221,7 +222,7 @@ class _MenuState extends State<Menu> {
               ),
             ),
             Container(
-              height: (isVisible == false) ? 543 : 488,
+              height: (isVisible == false) ? 610 : 488,
               child: ListView.builder(
                   itemCount: results.length,
                   itemBuilder: (BuildContext context, int index) {

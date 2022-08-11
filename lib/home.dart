@@ -1,6 +1,8 @@
 // import 'package:flutter/material.dart';
+// import 'package:food/orders.dart';
 // import 'package:food/payment.dart';
 // import 'package:food/rest.dart';
+// import 'package:food/reviews.dart';
 //
 // import 'home1.dart';
 //
@@ -14,8 +16,8 @@
 // class _HomepageState extends State<Homepage> {
 //   int _selectedIndex = 0;
 //   static const List _widgetOptions = [
-//     Restaurant(),
-//     Payment(),
+//     Orders(),
+//     Reviews(),
 //   ];
 //
 //   void _onItemTapped(int index) {
@@ -31,8 +33,8 @@
 //       bottomNavigationBar: BottomNavigationBar(
 //           items: const <BottomNavigationBarItem>[
 //             BottomNavigationBarItem(
-//                 icon: Icon(Icons.restaurant_menu),
-//                 label: "Restaurants",
+//                 icon: Icon(Icons.food_bank_outlined),
+//                 label: "Orders",
 //                 backgroundColor: Color(0xff04ECF0)
 //             ),
 //             BottomNavigationBarItem(
