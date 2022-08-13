@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:blurrycontainer/blurrycontainer.dart';
+import 'package:food/home.dart';
 // import 'package:food/home.dart';
-import 'package:food/rest.dart';
+// import 'package:food/rest.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -83,7 +84,7 @@ class _LoginState extends State<Login> {
                         onPressed: (){
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const Restaurant()),
+                            MaterialPageRoute(builder: (context) => const Homepage()),
                           );
                         },
                       ),

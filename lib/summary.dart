@@ -9,6 +9,13 @@ class Overview extends StatefulWidget {
 }
 
 class _OverviewState extends State<Overview> {
+String total(){
+  int x = 0;
+  for(int i = 0; i < widget.details['Price'].length; i++){
+    x += int.parse(widget.details['Price'][i]);
+  }
+ return x.toString();
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,8 +40,8 @@ class _OverviewState extends State<Overview> {
                     Navigator.pop(context);
                   },
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
+                const Padding(
+                  padding: EdgeInsets.all(20.0),
                   child: Text(
                     "Order Summary",
                     style: TextStyle(
@@ -47,7 +54,7 @@ class _OverviewState extends State<Overview> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
           Container(
@@ -65,6 +72,117 @@ class _OverviewState extends State<Overview> {
                 fontSize: 30,
               ),
             ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Color(0xff04D4F0),
+                border: Border.all(color: Colors.blueGrey),
+                borderRadius: BorderRadius.circular(15),
+              ),
+
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: const [
+                      Text(
+                        "Food Items",
+                        style: TextStyle(
+                          fontSize: 30,
+                        ),
+                      ),
+                      Text(
+                        "Quantity",
+                        style: TextStyle(
+                          fontSize: 30,
+                        ),
+                      ),
+                      Text(
+                        "Price",
+                        style: TextStyle(
+                          fontSize: 30,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    height: 250,
+                    width: 450,
+                    child: ListView.builder(
+                        itemCount: widget.details["Items"].length,
+                        itemBuilder: (BuildContext context, int index){
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    alignment: Alignment.center,
+                                    width: 220,
+                                    child: Text(
+                                      widget.details["Items"][index],
+                                      style: const TextStyle(
+                                        fontSize: 30,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    alignment: Alignment.center,
+                                    width: 40,
+                                    child: Text(
+                                      widget.details["Quantity"][index],
+                                      style: const TextStyle(
+                                        fontSize: 30,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    alignment: Alignment.center,
+                                    width: 80,
+                                    child: Text(
+                                      "₹${widget.details["Price"][index]}",
+                                      style: const TextStyle(
+                                        fontSize: 30,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+
+                            ),
+                          );
+                        }
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          Row(
+            children: [
+              const SizedBox(
+                width: 120,
+              ),
+              const Text("Total Price",
+              style: TextStyle(
+                fontSize: 30,
+              ),),
+              const SizedBox(
+                width: 90,
+              ),
+              Text("₹${total()}",
+                style: const TextStyle(
+                  fontSize: 30,
+                ),
+              ),
+            ],
           ),
 
         ],
