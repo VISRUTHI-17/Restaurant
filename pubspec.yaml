@@ -39,6 +39,7 @@ dependencies:
   counter_button: ^1.0.1
   modal_bottom_sheet: ^2.1.0
   collection: ^1.16.0
+  http:
 
 
 dev_dependencies:

@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:blurrycontainer/blurrycontainer.dart';
+import 'package:food/Backend/loginb.dart';
 import 'package:food/home.dart';
 // import 'package:food/home.dart';
 // import 'package:food/rest.dart';
@@ -12,8 +15,20 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+
+
+ final Loginb log = Loginb();
+ final TextEditingController _name = TextEditingController();
+ final TextEditingController _ph = TextEditingController();
+ @override
+
+
   @override
   Widget build(BuildContext context) {
+
+    _name.text="venkat";
+    _ph.text="78685757857";
+
     return Expanded(
       child: SafeArea(
         child: Container(
@@ -54,10 +69,11 @@ class _LoginState extends State<Login> {
                       const SizedBox(
                         height: 40,
                       ),
-                      const SizedBox(
+                      SizedBox(
                         width: 250,
                         child: TextField(
-                          decoration: InputDecoration(
+                          controller: _name,
+                          decoration: const InputDecoration(
                             hintText: 'Name',
                           ),
                         ),
@@ -65,10 +81,11 @@ class _LoginState extends State<Login> {
                       const SizedBox(
                         height: 10,
                       ),
-                      const SizedBox(
+                      SizedBox(
                         width: 250,
                         child: TextField(
-                          decoration: InputDecoration(
+                          controller: _ph,
+                          decoration: const InputDecoration(
                             hintText: 'Phone No',
                           ),
                         ),
@@ -81,11 +98,19 @@ class _LoginState extends State<Login> {
                           backgroundColor: MaterialStateProperty.all(Colors.lightBlueAccent)
                         ),
                         child: const Text('LOGIN', style: TextStyle(fontSize: 20.0),),
-                        onPressed: (){
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const Homepage()),
-                          );
+                        onPressed: () async{
+                         final res = await log.login(_name.text, _ph.text);
+                         print(res);
+                         if(res['msg']=="Data received"){
+                           print("Login Success");
+                           Navigator.push(
+                             context,
+                             MaterialPageRoute(builder: (context) => const Homepage()),
+                           );
+                         }
+                         else{
+                           print("Login Failed");
+                         }
                         },
                       ),
                     ],

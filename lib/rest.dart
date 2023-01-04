@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:food/Backend/restb.dart';
 // import 'package:food/orders.dart';
 // import 'package:food/payment.dart';
 import 'package:food/rest1.dart';
@@ -34,7 +35,20 @@ class _RestaurantState extends State<Restaurant> {
   //     );
   //   });
   // }
-
+  final RestName rest = RestName();
+  @override
+  void initState() {
+    // TODO: implement initState
+    fetchrest();
+    super.initState();
+  }
+  List names = [];
+  fetchrest()async{
+    dynamic resultant = await rest.makeGetRequest();
+    setState(() {
+      names = resultant;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -64,13 +78,13 @@ class _RestaurantState extends State<Restaurant> {
         //     onTap: _onItemTapped,
         //     elevation: 5),
         body: ListView.builder(
-            itemCount: restName.length,
+            itemCount: names.length,
             itemBuilder: (BuildContext context, int index) {
               return GestureDetector(
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Menu(restName: restName[index])),
+                    MaterialPageRoute(builder: (context) => Menu(restName: names[index])),
                   );
                 },
                 child: Padding(
@@ -98,7 +112,7 @@ class _RestaurantState extends State<Restaurant> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            restName[index]['RestName'],
+                            names[index]['res1'],
                             style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -112,7 +126,7 @@ class _RestaurantState extends State<Restaurant> {
                             padding: const EdgeInsets.all(8.0),
                             child: RatingBarIndicator(
                               itemSize: 30,
-                              rating: restName[index]['Rating'],
+                              rating: double.parse(names[index]['rate']),
                               direction: Axis.horizontal,
                               itemCount: 5,
                               itemBuilder: (context, index) => const Icon(

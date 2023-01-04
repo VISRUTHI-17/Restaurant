@@ -2,12 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:counter_button/counter_button.dart';
 import 'package:food/payment.dart';
-import 'package:food/rest.dart';
-import 'package:food/reviews.dart';
+import 'Backend/detailsb.dart';
 
-import 'orders.dart';
-
-// import 'package:food/rest.dart';
 class Menu extends StatefulWidget {
   final Map<dynamic, dynamic> restName;
   const Menu({Key? key, required this.restName}) : super(key: key);
@@ -49,30 +45,43 @@ class _MenuState extends State<Menu> {
   bool isVisible = false;
   List results = [];
   String choice = "";
+  final Details det = Details();
+  List details = [];
+
   @override
   initState() {
-    count = List.filled(items.length, 0);
+    RestDetail();
+    // count = List.filled(details.length, 0);
     super.initState();
   }
 
-  String add() {
-    int? sum = 0;
-    for (int i = 0; i < count.length; i++) {
-      sum = (sum! + count[i]) as int?;
-    }
-    if (sum == 1) {
-      return "${sum.toString()} ITEM";
-    } else {
-      return "${sum.toString()} ITEMS";
-    }
+  RestDetail()async{
+    dynamic res = await det.makeGetRequest(widget.restName["id"]);
+    setState(() {
+      details = res;
+    });
   }
-  String addprice() {
-    int? total = 0;
-    for (int i = 0; i < count.length; i++) {
-      total = (total! + count[i]*items[i]['Price']) as int?;
-    }
-    return "₹${total.toString()} plus taxes";
-  }
+
+
+  // String add() {
+  //   int? sum = 0;
+  //   for (int i = 0; i < count.length; i++) {
+  //     sum = (sum! + count[i]) as int?;
+  //   }
+  //   if (sum == 1) {
+  //     return "${sum.toString()} ITEM";
+  //   } else {
+  //     return "${sum.toString()} ITEMS";
+  //   }
+  // }
+  // String addprice() {
+  //   int? total = 0;
+  //   for (int i = 0; i < count.length; i++) {
+  //     total = (total! + count[i]*pay[i]['price']) as int?;
+  //   }
+  //   return "₹${total.toString()} plus taxes";
+  // }
+
 
   // int _selectedIndex = 0;
   // static const List _widgetOptions = [
@@ -94,11 +103,11 @@ class _MenuState extends State<Menu> {
     setState(() {
       if (choice.isEmpty) {
         // if the search field is empty or only contains white-space, we'll display all users
-        results = items;
+        results = details;
       } else {
-        results = items
+        results = details
             .where((user) =>
-                user["Fname"].toLowerCase().contains(choice.toLowerCase()))
+                user["name"].toLowerCase().contains(choice.toLowerCase()))
             .toList();
         // we use the toLowerCase() method to make it case-insensitive
       }
@@ -155,7 +164,7 @@ class _MenuState extends State<Menu> {
                       Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: Text(
-                          widget.restName['RestName'],
+                          widget.restName['res1'],
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 30,
@@ -168,7 +177,7 @@ class _MenuState extends State<Menu> {
                   Padding(
                     padding: const EdgeInsets.only(left: 10,top: 3),
                     child: Text(
-                      widget.restName['Place'],
+                      widget.restName['place'],
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontStyle: FontStyle.italic,
@@ -183,12 +192,12 @@ class _MenuState extends State<Menu> {
                       children: [
                         Icon(
                           Icons.center_focus_strong_sharp,
-                          color: (widget.restName['Type'] == 'Non-veg')
+                          color: (widget.restName['type'] == 'Non-veg')
                               ? Colors.red
                               : Colors.green,
                         ),
                         Text(
-                          widget.restName['Type'],
+                          widget.restName['type'],
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 17,
@@ -239,7 +248,7 @@ class _MenuState extends State<Menu> {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    results[index]['Timing'],
+                                    results[index]['time'],
                                     style: const TextStyle(
                                       fontSize: 20,
                                       color: Colors.grey,
@@ -249,7 +258,7 @@ class _MenuState extends State<Menu> {
                                 Padding(
                                   padding: const EdgeInsets.all(5.0),
                                   child: Text(
-                                    results[index]['Fname'],
+                                    results[index]['name'],
                                     style: const TextStyle(
                                       fontSize: 40,
                                       fontWeight: FontWeight.bold,
@@ -261,7 +270,7 @@ class _MenuState extends State<Menu> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: RatingBarIndicator(
                                     itemSize: 20,
-                                    rating: results[index]['Rating'],
+                                    rating:  double.parse(results[index]['rating']),
                                     direction: Axis.horizontal,
                                     itemCount: 5,
                                     itemBuilder: (context, index) => const Icon(
@@ -273,7 +282,7 @@ class _MenuState extends State<Menu> {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    "₹${(results[index]['Price']).toString()}",
+                                    "₹${( results[index]['price']).toString()}",
                                     style: const TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
@@ -305,21 +314,21 @@ class _MenuState extends State<Menu> {
                                   onChange: (int val) {
                                     setState(() {
                                       pay.add(results[index]);
-                                      int d = 0;
-                                      count[index] = (val < 0) ? 0 : val;
-                                      for (int i = 0; i < count.length; i++) {
-                                        if (count[i] == 0) {
-                                          d = d + 1;
-                                        } else {}
-                                      }
-                                      if (d == count.length) {
-                                        isVisible = false;
-                                      } else {
-                                        isVisible = true;
-                                      }
-                                    });
+                                      //   int d = 0;
+                                      //   count[index] = (val < 0) ? 0 : val;
+                                      //   for (int i = 0; i < count.length; i++) {
+                                      //     if (count[i] == 0) {
+                                      //       d = d + 1;
+                                      //     } else {}
+                                      //   }
+                                      //   if (d == count.length) {
+                                      //     isVisible = false;
+                                      //   } else {
+                                      //     isVisible = true;
+                                      //   }
+                                      });
                                   },
-                                  count: count[index],
+                                  count: 0,
                                   countColor: Colors.black,
                                   buttonColor: Colors.black,
                                   progressColor: Colors.black,
@@ -344,26 +353,26 @@ class _MenuState extends State<Menu> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Text(
-                              add(),
-                              style: const TextStyle(
-                                fontSize: 15,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Text(
-                              addprice(),
-                              style: const TextStyle(
-                                fontSize: 18,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
+                          // Padding(
+                          //   padding: const EdgeInsets.all(4.0),
+                          //   child: Text(
+                          //     add(),
+                          //     style: const TextStyle(
+                          //       fontSize: 15,
+                          //       color: Colors.white,
+                          //     ),
+                          //   ),
+                          // ),
+                          // Padding(
+                          //   padding: const EdgeInsets.all(4.0),
+                          //   child: Text(
+                          //     addprice(),
+                          //     style: const TextStyle(
+                          //       fontSize: 18,
+                          //       color: Colors.white,
+                          //     ),
+                          //   ),
+                          // ),
                         ],
                       ),
                       TextButton(
@@ -375,7 +384,7 @@ class _MenuState extends State<Menu> {
                           ),
                         ),
                         onPressed: () {
-                          String hotelName = widget.restName['RestName'];
+                          String hotelName = (widget.restName['res1']).toString();
                           Navigator.push(
                             context,
                             MaterialPageRoute(
